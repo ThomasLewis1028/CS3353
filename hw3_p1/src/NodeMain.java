@@ -1,8 +1,6 @@
 import java.util.Scanner;
 
 public class NodeMain {
-
-
     public static void main(String[] args)
     {
         String pattern = "^\\d+\\.(in_\\d+|del|sch|in)$";
