@@ -1,32 +1,31 @@
-public class NodeEdit {
+class NodeEdit {
     Node head;
-    private int size = 1;
+    private int size = 0;
 
-    void in(int newElement) {
-        if (schB(newElement)) {
-            System.out.println(newElement + " already exists in the list");
+    void in(int e) {
+        if (schB(e)) {
+            System.out.println(e + " already exists in the list");
             return;
         }
 
-        Node new_node = new Node(newElement);
-        new_node.setPrev(null);
-        new_node.setNext(head);
+        Node node = new Node(e);
+        node.setPrev(null);
+        node.setNext(head);
 
         if (head != null) {
-            head.setPrev(new_node);
+            head.setPrev(node);
         }
-        head = new_node;
+        head = node;
         size++;
     }
 
-    void in(int newElement, int link) {
-        if (schB(newElement)) {
-            System.out.println(newElement + " already exists in the list");
+    void in(int e, int link) {
+        if (schB(e)) {
+            System.out.println(e + " already exists in the list");
             return;
         }
-        Node new_node = new Node(newElement);
+        Node node = new Node(e);
         Node temp = head;
-
 
         while (temp.getElement() != link) {
             temp = temp.getNext();
@@ -38,34 +37,29 @@ public class NodeEdit {
         }
 
         Node tempNext = temp.getNext();
-        temp.setNext(new_node);
-        new_node.setPrev(temp);
-        tempNext.setPrev(new_node);
-        new_node.setNext(tempNext);
+        temp.setNext(node);
+        node.setPrev(temp);
+        if (tempNext != null)
+            tempNext.setPrev(node);
+        node.setNext(tempNext);
 
         size++;
     }
 
-
     void del(int num) {
-        Node delElement = head;
+        Node del = head;
 
-        while (delElement.getElement() != num) {
-            delElement = delElement.getNext();
-        }
+        while (del.getElement() != num)
+            del = del.getNext();
 
-        if (head == delElement) {
-            head = delElement.getNext();
-        }
+        if (head == del)
+            head = del.getNext();
+        if (del.getNext() != null)
+            del.getNext().setPrev(del.getPrev());
+        if (del.getPrev() != null)
+            del.getPrev().setNext(del.getNext());
 
-        if (delElement.getNext() != null) {
-            delElement.getNext().setNext(delElement.getPrev());
-        }
-
-
-        if (delElement.getPrev() != null) {
-            delElement.getPrev().setNext(delElement.getNext());
-        }
+        size--;
     }
 
     void sch(int num) {
@@ -101,7 +95,7 @@ public class NodeEdit {
     }
 
     void printList(Node node) {
-        System.out.println("Traversal from L to R");
+        System.out.println("List of size " + size + " from left to right");
         while (node != null) {
             System.out.print(node.getElement() + " ");
             node = node.getNext();

@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class NodeMain {
     public static void main(String[] args) {
-        String pattern = "^\\d+\\.(in_\\d+|del|sch|in|print)$";
+        String pattern = "^\\d+\\.(in_\\d+|del|sch|in)$";
         Scanner scanner = new Scanner(System.in);
         NodeEdit linkedList = new NodeEdit();
 
@@ -12,8 +12,10 @@ public class NodeMain {
 
             if (input.matches("exit"))
                 break;
+            else if (input.matches("print"))
+                linkedList.printList(linkedList.head);
             else if (input.matches(pattern)) {
-                String[] arr = input.split("[\\._]");
+                String[] arr = input.split("[._]");
                 int x = Integer.parseInt(arr[0]);
 
                 switch (arr[1]) {
@@ -31,11 +33,8 @@ public class NodeMain {
                         break;
                     default:
                         break;
-
                 }
-            } else if (input.matches("print"))
-                linkedList.printList(linkedList.head);
-            else
+            } else
                 System.out.println("Not a recognized command");
         }
 

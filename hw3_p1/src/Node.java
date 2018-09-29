@@ -1,4 +1,4 @@
-public class Node {
+class Node {
     private int element;
     private Node prev;
     private Node next;
@@ -8,27 +8,23 @@ public class Node {
         this.next = this.prev = null;
     }
 
-    public int getElement() {
+    int getElement() {
         return element;
     }
 
-    public void setElement(int element) {
-        this.element = element;
-    }
-
-    public Node getPrev() {
+    Node getPrev() {
         return prev;
     }
 
-    public void setPrev(Node prev) {
+    void setPrev(Node prev) {
         this.prev = prev;
     }
 
-    public Node getNext() {
+    Node getNext() {
         return next;
     }
 
-    public void setNext(Node next) {
+    void setNext(Node next) {
         this.next = next;
     }
 }
