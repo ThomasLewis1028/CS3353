@@ -1,97 +1,111 @@
 public class NodeEdit {
     Node head;
-    int size = 1;
+    private int size = 1;
 
-    void in(int newElement)
-    {
+    void in(int newElement) {
+        if (schB(newElement)) {
+            System.out.println(newElement + " already exists in the list");
+            return;
+        }
+
         Node new_node = new Node(newElement);
+        new_node.setPrev(null);
+        new_node.setNext(head);
 
-        new_node.prev = null;
-        new_node.next = head;
-
-        if(head != null)
-        {
-            head.prev = new_node;
+        if (head != null) {
+            head.setPrev(new_node);
         }
         head = new_node;
         size++;
     }
 
-    void in(int newElement, int link)
-    {
-        Node new_node = new Node(newElement);
-
-        new_node.prev = null;
-        new_node.next = head;
-
-        if(head != null)
-        {
-            head.prev = new_node;
+    void in(int newElement, int link) {
+        if (schB(newElement)) {
+            System.out.println(newElement + " already exists in the list");
+            return;
         }
-        head = new_node;
+        Node new_node = new Node(newElement);
+        Node temp = head;
+
+
+        while (temp.getElement() != link) {
+            temp = temp.getNext();
+
+            if (temp == null) {
+                System.out.println(link + " does not exist in the list");
+                return;
+            }
+        }
+
+        Node tempNext = temp.getNext();
+        temp.setNext(new_node);
+        new_node.setPrev(temp);
+        tempNext.setPrev(new_node);
+        new_node.setNext(tempNext);
+
         size++;
     }
 
 
-    void del(int num)
-    {
+    void del(int num) {
         Node delElement = head;
-        Node temp = null;
 
-        while(delElement.element != num)
-        {
-            // System.out.println(delElement.element);
-            delElement = delElement.next;
+        while (delElement.getElement() != num) {
+            delElement = delElement.getNext();
         }
-        // System.out.println();
-        //System.out.println(delElement.element);
 
         if (head == delElement) {
-            head = delElement.next;
-        }
-        /* Change next only if node to be deleted is NOT the last node */
-        if (delElement.next != null) {
-            delElement.next.prev = delElement.prev;
+            head = delElement.getNext();
         }
 
-        /* Change prev only if node to be deleted is NOT the first node */
-        if (delElement.prev != null) {
-            delElement.prev.next = delElement.next;
+        if (delElement.getNext() != null) {
+            delElement.getNext().setNext(delElement.getPrev());
         }
 
-        /* Finally, free the memory occupied by del*/
-        return;
 
+        if (delElement.getPrev() != null) {
+            delElement.getPrev().setNext(delElement.getNext());
+        }
     }
 
-    public int sch(int num)
-    {
+    void sch(int num) {
         Node temp = head;
-        int location = 1;
-        while(temp.element != num)
-        {
-            temp = temp.next;
-            location++;
+        int loc = 1;
+
+        while (temp.getElement() != num) {
+            temp = temp.getNext();
+
+            if (temp == null) {
+                System.out.println(num + " does not exist in the list");
+                return;
+            }
+            loc++;
         }
-        return location;
+
+        System.out.println(num + " is stored at " + loc);
     }
 
-    public void printList(Node node)
-    {
-        Node last = null;
+    private boolean schB(int num) {
+        Node temp = head;
+
+        if (temp == null)
+            return false;
+
+        while (temp.getElement() != num) {
+            temp = temp.getNext();
+
+            if (temp == null)
+                return false;
+        }
+        return true;
+    }
+
+    void printList(Node node) {
         System.out.println("Traversal from L to R");
-        while(node != null)
-        {
-            System.out.print(node.element + " ");
-            last = node;
-            node = node.next;
+        while (node != null) {
+            System.out.print(node.getElement() + " ");
+            node = node.getNext();
         }
         System.out.println();
-        System.out.println("Traversal from R to L");
-        while(last != null)
-        {
-            System.out.print(last.element + " ");
-            last = last.prev;
-        }
     }
 }

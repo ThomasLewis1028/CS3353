@@ -1,7 +1,7 @@
 public class Node {
-    int element;
-    Node prev;
-    Node next;
+    private int element;
+    private Node prev;
+    private Node next;
 
     Node(int e) {
         this.element = e;
