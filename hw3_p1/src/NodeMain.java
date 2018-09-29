@@ -1,28 +1,28 @@
 import java.util.Scanner;
 
-public class Hw3_P1 {
+public class NodeMain {
 
 
     public static void main(String[] args)
     {
         String pattern = "^\\d+\\.(in_\\d+|del|sch|in)$";
         Scanner scanner = new Scanner(System.in);
-        EditNode linkedList = new EditNode();
+        NodeEdit linkedList = new NodeEdit();
 
         while(true){
             System.out.print("Node command: ");
-            String in = scanner.next();
+            String input = scanner.next();
 
-            if(in.matches("exit/i"))
+            if(input.matches("exit/i"))
                 break;
-            else if (in.matches(pattern)){
-                String[] arr = in.split("\\.|_");
+            else if (input.matches(pattern)){
+                String[] arr = input.split("\\.|_");
                 int x = Integer.parseInt(arr[0]);
 
                 switch (arr[1]){
                     case "in":
                         if(arr[2] == null)
-                            linkedList.add(x);
+                            linkedList.in(x);
                         else
 
                         break;
@@ -30,7 +30,7 @@ public class Hw3_P1 {
                         linkedList.del(x);
                         break;
                     case "sch":
-                        linkedList.srch(x);
+                        linkedList.sch(x);
                         break;
                 }
             }

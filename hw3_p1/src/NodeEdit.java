@@ -1,8 +1,8 @@
-public class EditNode {
+public class NodeEdit {
     Node head;
     int size = 1;
 
-    void add(int newElement)
+    void in(int newElement)
     {
         Node new_node = new Node(newElement);
 
@@ -17,7 +17,7 @@ public class EditNode {
         size++;
     }
 
-    void add(int newElement, int link)
+    void in(int newElement, int link)
     {
         Node new_node = new Node(newElement);
 
@@ -64,7 +64,7 @@ public class EditNode {
 
     }
 
-    public int srch(int num)
+    public int sch(int num)
     {
         Node temp = head;
         int location = 1;
