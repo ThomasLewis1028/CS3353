@@ -1,4 +1,5 @@
 class Queue {
+    //Basic queue class with getters and setters
     private int size, front, rear;
     private int[] arr;
 

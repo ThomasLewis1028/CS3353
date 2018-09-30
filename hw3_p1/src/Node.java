@@ -1,4 +1,5 @@
 class Node {
+    //Basic node class with getters and settesr
     private int element;
     private Node prev;
     private Node next;

@@ -3,11 +3,13 @@ class NodeEdit {
     private int size = 0;
 
     void in(int e) {
+        //Search for item in list to avoid duplicates
         if (schB(e)) {
             System.out.println(e + " already exists in the list");
             return;
         }
 
+        //Set new node at head and add to size
         Node node = new Node(e);
         node.setPrev(null);
         node.setNext(head);
@@ -19,23 +21,31 @@ class NodeEdit {
         size++;
     }
 
+    //Insert item on node
     void in(int e, int link) {
+
+        //Search for item to avoid duplicates
         if (schB(e)) {
             System.out.println(e + " already exists in the list");
             return;
         }
+
+        //Create new node and temp node head
         Node node = new Node(e);
         Node temp = head;
 
+        //Search for node to link
         while (temp.getElement() != link) {
             temp = temp.getNext();
 
+            //Check to not reach of of list and get array out of bounds
             if (temp == null) {
                 System.out.println(link + " does not exist in the list");
                 return;
             }
         }
 
+        //Change links for previous and next nodes to include new node
         Node tempNext = temp.getNext();
         temp.setNext(node);
         node.setPrev(temp);
@@ -49,9 +59,16 @@ class NodeEdit {
     void del(int num) {
         Node del = head;
 
-        while (del.getElement() != num)
+        //Iterate through to find node and check for out of bounds
+        while (del.getElement() != num) {
             del = del.getNext();
 
+            if (del == null){
+                System.out.println(num + " not found in list");
+            }
+        }
+
+        //Set new links to old nodes without deleted node
         if (head == del)
             head = del.getNext();
         if (del.getNext() != null)
@@ -62,6 +79,7 @@ class NodeEdit {
         size--;
     }
 
+    //Search for elements in list and print location
     void sch(int num) {
         Node temp = head;
         int loc = 1;
@@ -79,6 +97,7 @@ class NodeEdit {
         System.out.println(num + " is stored at " + loc);
     }
 
+    //Search for elements in list and return boolean for found
     private boolean schB(int num) {
         Node temp = head;
 
@@ -94,6 +113,7 @@ class NodeEdit {
         return true;
     }
 
+    //Iterate through and print each element
     void printList(Node node) {
         System.out.println("List values: ");
         while (node != null) {

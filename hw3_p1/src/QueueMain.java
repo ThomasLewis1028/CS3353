@@ -9,27 +9,25 @@ public class QueueMain {
         Scanner scan = new Scanner(System.in);
         String line;
 
+        //Set to rea from a file
         System.out.println("Enter your input file name: ");
-        String filename = scan.nextLine(); // Receiving input from user
+        String filename = scan.nextLine();
         File file = new File(filename);
 
+        //Set up file readers
         FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
 
-        try {
-            Scanner temp = new Scanner(file);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        System.out.println();
-
+        //Iterate line by line, allows for multiple tests with different Queues
         while ((line = br.readLine()) != null) {
             System.out.println("File input: ");
             System.out.println(line);
 
+            //Split by space delimiter
             String arr[] = line.split(" ");
             queue = new QueueEdit(Integer.parseInt(arr[0]));
 
+            //Iterate through array adding or removing based on input
             for (String val : arr) {
                 if (val.matches("^-?\\d+\\.in$")) {
                     String op[] = val.split("\\.");
