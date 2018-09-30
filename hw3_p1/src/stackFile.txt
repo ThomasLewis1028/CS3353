@@ -1,0 +1,2 @@
+5.push 6.push 2.push pop 8.push
+pop 3.push 2.push

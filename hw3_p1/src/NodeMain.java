@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class NodeMain {
     public static void main(String[] args) {
-        String pattern = "^\\d+\\.(in_\\d+|del|sch|in)$";
+        String pattern = "^-?\\d+\\.(in_\\d+|del|sch|in)$";
         Scanner scanner = new Scanner(System.in);
         NodeEdit linkedList = new NodeEdit();
 

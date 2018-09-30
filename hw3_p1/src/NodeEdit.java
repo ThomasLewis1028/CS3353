@@ -95,7 +95,7 @@ class NodeEdit {
     }
 
     void printList(Node node) {
-        System.out.println("List of size " + size + " from left to right");
+        System.out.println("List values: ");
         while (node != null) {
             System.out.print(node.getElement() + " ");
             node = node.getNext();

@@ -4,51 +4,55 @@ import java.util.Scanner;
 
 public class StackMain {
     public static void main(String[] args) throws IOException {
-        ArrayList<Integer> numList = new ArrayList<Integer>();
-        String line = null;
-
-        System.out.println("Enter your input file name");
+        ArrayList<Integer> stack;
         Scanner scan = new Scanner(System.in);
+        String line;
+
+        System.out.println("Enter your input file name: ");
         String filename = scan.nextLine(); // Receiving input from user
         File file = new File(filename);
 
         FileReader fr = new FileReader(filename);
         BufferedReader br = new BufferedReader(fr);
 
-        Scanner temp = null;
         try {
-            temp = new Scanner(file);
-        }
-        catch (FileNotFoundException e) {
+            Scanner temp = new Scanner(file);
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        System.out.println("Display of the input before operations: ");
-        while((line = br.readLine())!= null)
-        {
-            System.out.println(line);
-            String tempStr[] = line.split(" ");
-            System.out.println("\n");
-            for(int i=0;i<tempStr.length;i++)
-            {
-                String op[] = tempStr[i].split("\\.");
-                if(op[1].equals("push"))
-                {
-                    numList.add(new Integer(op[0]));
-                    System.out.println(op[0]+" is pushed onto the stack");
-                }
-                else if(op[1].equals("pop"))
-                {
-                    numList.remove(new Integer(op[0]));
-                    System.out.println(op[0]+" is popped from the stack");
-                }
-            }
-            System.out.println("\n Display of Stack after operations is:");
+        while ((line = br.readLine()) != null) {
+            stack = new ArrayList<Integer>();
 
-            for(int j = numList.size()-1;j>=0;j--)
-            {
-                System.out.print(numList.get(j)+" ");
+            System.out.println("File input: ");
+            System.out.println(line);
+
+            String arr[] = line.split(" ");
+
+            for (String val : arr) {
+                if (val.matches("^-?\\d+\\.push$")) {
+                    String op[] = val.split("\\.");
+
+                    if (op[1].matches("push")) {
+                        stack.add(Integer.parseInt(op[0]));
+                        System.out.println(op[0] + " pushed onto the stack");
+                    }
+                }
+                if (val.matches("pop")) {
+                    if (stack.size() == 0) {
+                        System.out.println("Stack is empty");
+                    } else {
+                        System.out.println(stack.get(0) + " removed from stack");
+                        stack.remove(0);
+                    }
+                }
             }
+            System.out.println("Stack values:");
+
+            for (int i = stack.size() - 1; i >= 0; i--)
+                System.out.print(stack.get(i) + " ");
+
+            System.out.println();
         }
     }
 }
