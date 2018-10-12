@@ -29,6 +29,8 @@ public class HeapNode {
 
     public void setLeftChild(HeapNode leftChild) {
         this.leftChild = leftChild;
+        if(leftChild != null)
+            leftChild.setParent(this);
     }
 
     public HeapNode getRightChild() {
@@ -37,6 +39,8 @@ public class HeapNode {
 
     public void setRightChild(HeapNode rightChild) {
         this.rightChild = rightChild;
+        if(rightChild != null)
+            rightChild.setParent(this);
     }
 
     public int getElement() {
