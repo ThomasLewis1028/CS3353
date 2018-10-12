@@ -4,7 +4,7 @@ import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
 import java.util.ArrayList;
 
 public class HeapEdit {
-//    private Object Heap[];
+    //    private Object Heap[];
     HeapNode head, last;
     private int size = 0;
     private int maxSize;
@@ -42,20 +42,20 @@ public class HeapEdit {
 
     public void swap(HeapNode t, HeapNode n) {
         if (n.getElement() < t.getElement()) {
+            HeapNode temp;
             if (t == head) {
-                HeapNode temp;
                 if (t.getLeftChild() == n) {
                     temp = t.getRightChild();
                     t.setLeftChild(n.getLeftChild());
                     n.setLeftChild(t);
+                    t.setRightChild(n.getRightChild());
                     n.setRightChild(temp);
-                    t.setRightChild(null);
                 } else {
                     temp = t.getLeftChild();
                     t.setRightChild(n.getRightChild());
                     n.setRightChild(t);
+                    t.setLeftChild(n.getLeftChild());
                     n.setLeftChild(temp);
-                    t.setLeftChild(null);
                 }
 
                 head = n;
@@ -63,17 +63,40 @@ public class HeapEdit {
             } else {
                 n.setParent(t.getParent());
 
-                if (t.getParent().getRightChild() == t)
+                if (t.getParent().getRightChild() == t) {
                     t.getParent().setRightChild(n);
-                else
+
+                    if (t.getLeftChild() == n) {
+                        temp = t.getRightChild();
+                        t.setLeftChild(n.getLeftChild());
+                        n.setLeftChild(t);
+                        t.setRightChild(n.getRightChild());
+                        n.setRightChild(temp);
+                    } else {
+                        temp = t.getLeftChild();
+                        t.setRightChild(n.getRightChild());
+                        n.setRightChild(t);
+                        t.setLeftChild(n.getLeftChild());
+                        n.setLeftChild(temp);
+                    }
+
+                } else {
                     t.getParent().setLeftChild(n);
 
-                if (t.hasRight() && t.getRightChild() != n)
-                    n.setRightChild(t.getRightChild());
-                if (t.hasLeft() && t.getLeftChild() != n)
-                    n.setLeftChild(t.getLeftChild());
-
-                n.setRightChild(t);
+                    if (t.getLeftChild() == n) {
+                        temp = t.getRightChild();
+                        t.setLeftChild(n.getLeftChild());
+                        n.setLeftChild(t);
+                        t.setRightChild(n.getRightChild());
+                        n.setRightChild(temp);
+                    } else {
+                        temp = t.getLeftChild();
+                        t.setRightChild(n.getRightChild());
+                        n.setRightChild(t);
+                        t.setLeftChild(n.getLeftChild());
+                        n.setLeftChild(temp);
+                    }
+                }
             }
 
             int td = t.getDepth();
@@ -81,7 +104,7 @@ public class HeapEdit {
             n.setDepth(td);
 
             if (n.getParent() != null && n.getElement() < n.getParent().getElement()) {
-                swap(n, n.getParent());
+                swap(n.getParent(), n);
             }
 
         } else {
