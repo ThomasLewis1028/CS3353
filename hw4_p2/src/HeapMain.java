@@ -11,20 +11,24 @@ public class HeapMain {
         heap.in(44);
         heap.in(26);
         heap.in(31);
+        heap.del();
 
 //        heap.in(2);
 //        heap.in(5);
 //        heap.in(6);
 //        heap.in(9);
 //        heap.in(7);
+////        heap.in(1);
+//        heap.del();
 
-        heap.getLast();
-        heap.printHeap();
-        heap.del();
-        heap.getLast();
-        heap.printHeap();
-        heap.del();
-        heap.getLast();
+
+//        heap.getLast();
+//        heap.printHeap();
+//        heap.del();
+//        heap.getLast();
+//        heap.printHeap();
+//        heap.del();
+//        heap.getLast();
         heap.printHeap();
     }
 }

@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 public class HeapEdit {
     HeapNode head, last;
     private int size = 0;
@@ -29,38 +27,43 @@ public class HeapEdit {
                 temp.setLeftChild(node);
 
             last = node;
-            if (node.getElement() < temp.getElement())
+            if (node.getElement() > temp.getElement())
                 swap(temp, node);
         }
 
         size++;
     }
 
-    public void del(){
+    public void del() {
         HeapNode max = findMax(head);
+        System.out.println(max.getElement());
 
-        if(last.getParent().getLeftChild() == last)
+        if (last.getParent().getLeftChild() == last)
             last.getParent().setLeftChild(null);
         else
             last.getParent().setRightChild(null);
 
-        if(max.getParent().getLeftChild() == max)
-            max.getParent().setLeftChild(last);
+        if (max != head)
+            if (max.getParent().getLeftChild() == max)
+                max.getParent().setLeftChild(last);
+            else
+                max.getParent().setRightChild(last);
         else
-            max.getParent().setRightChild(last);
+            head = last
 
-        last.setLeftChild(max.getLeftChild());
+
+            last.setLeftChild(max.getLeftChild());
         last.setRightChild(max.getRightChild());
 
 
-        if (last.getElement() < last.getParent().getElement())
+        if (last.getElement() > last.getParent().getElement())
             swap(last, last.getParent());
 
         size--;
     }
 
     public void swap(HeapNode t, HeapNode n) {
-        if (n.getElement() < t.getElement()) {
+        if (n.getElement() > t.getElement()) {
             if (t == head) {
                 swapChildren(t, n);
                 head = n;
@@ -81,11 +84,11 @@ public class HeapEdit {
             t.setDepth(n.getDepth());
             n.setDepth(td);
 
-            if (n.getParent() != null && n.getElement() < n.getParent().getElement()) {
+            if (n.getParent() != null && n.getElement() > n.getParent().getElement()) {
                 swap(n.getParent(), n);
             }
 
-            if(n == last)
+            if (n == last)
                 last = t;
 
         }
@@ -127,7 +130,7 @@ public class HeapEdit {
             return l;
     }
 
-    HeapNode findMax(HeapNode n){
+    HeapNode findMax(HeapNode n) {
         HeapNode r = null;
         HeapNode l = null;
 
@@ -140,13 +143,26 @@ public class HeapEdit {
         if (n.hasRight())
             r = findMax(n.getRightChild());
 
-        if (r == null || l.getElement() > r.getElement())
-            return l;
-        else
-            return r;
-    }
 
-    ArrayList<HeapNode> nodes = new ArrayList<>();
+        if (r == null) {
+            if (l.getElement() > n.getElement())
+                return l;
+            else
+                return n;
+        } else {
+            if (l.getElement() > r.getElement()) {
+                if (l.getElement() > n.getElement())
+                    return l;
+                else
+                    return n;
+            } else {
+                if (r.getElement() > n.getElement())
+                    return r;
+                else
+                    return n;
+            }
+        }
+    }
 
     public void printHeap(HeapNode node) {
         System.out.print(node.getElement() + " ");
@@ -172,7 +188,7 @@ public class HeapEdit {
         return node.getDepth();
     }
 
-    public void getLast(){
+    public void getLast() {
         System.out.println(last.getElement());
     }
 }
