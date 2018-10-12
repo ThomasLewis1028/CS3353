@@ -1,16 +1,11 @@
-import com.sun.javafx.scene.NodeHelper;
-import com.sun.xml.internal.ws.api.message.ExceptionHasMessage;
-
 import java.util.ArrayList;
 
 public class HeapEdit {
-    //    private Object Heap[];
     HeapNode head, last;
     private int size = 0;
     private int maxSize;
 
     public HeapEdit(int cap) {
-//        Heap = new Object[cap];
         maxSize = cap;
     }
 
@@ -22,6 +17,7 @@ public class HeapEdit {
         HeapNode node = new HeapNode(e);
         if (size == 0) {
             head = node;
+            last = node;
             head.setDepth(0);
         } else {
             HeapNode temp = findDeepest(head);
@@ -32,12 +28,35 @@ public class HeapEdit {
             else
                 temp.setLeftChild(node);
 
+            last = node;
             if (node.getElement() < temp.getElement())
                 swap(temp, node);
         }
 
-        //last = node;
         size++;
+    }
+
+    public void del(){
+        HeapNode max = findMax(head);
+
+        if(last.getParent().getLeftChild() == last)
+            last.getParent().setLeftChild(null);
+        else
+            last.getParent().setRightChild(null);
+
+        if(max.getParent().getLeftChild() == max)
+            max.getParent().setLeftChild(last);
+        else
+            max.getParent().setRightChild(last);
+
+        last.setLeftChild(max.getLeftChild());
+        last.setRightChild(max.getRightChild());
+
+
+        if (last.getElement() < last.getParent().getElement())
+            swap(last, last.getParent());
+
+        size--;
     }
 
     public void swap(HeapNode t, HeapNode n) {
@@ -66,8 +85,9 @@ public class HeapEdit {
                 swap(n.getParent(), n);
             }
 
-        } else {
-            System.out.println("No swap needed");
+            if(n == last)
+                last = t;
+
         }
     }
 
@@ -107,16 +127,29 @@ public class HeapEdit {
             return l;
     }
 
-    public int getMaxSize() {
-        return maxSize;
+    HeapNode findMax(HeapNode n){
+        HeapNode r = null;
+        HeapNode l = null;
+
+        if (!n.hasLeft() && !n.hasRight())
+            return n;
+
+        if (n.hasLeft())
+            l = findMax(n.getLeftChild());
+
+        if (n.hasRight())
+            r = findMax(n.getRightChild());
+
+        if (r == null || l.getElement() > r.getElement())
+            return l;
+        else
+            return r;
     }
 
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-    }
+    ArrayList<HeapNode> nodes = new ArrayList<>();
 
     public void printHeap(HeapNode node) {
-        System.out.println(node.getElement() + " ");
+        System.out.print(node.getElement() + " ");
 
         if (node.hasLeft())
             printHeap(node.getLeftChild());
@@ -126,5 +159,20 @@ public class HeapEdit {
 
     public void printHeap() {
         printHeap(head);
+        System.out.println();
+    }
+
+    public int getMaxDepth() {
+        HeapNode node = head;
+        do {
+            node = node.getLeftChild();
+        }
+        while (node.getLeftChild() != null);
+
+        return node.getDepth();
+    }
+
+    public void getLast(){
+        System.out.println(last.getElement());
     }
 }
