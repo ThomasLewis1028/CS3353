@@ -42,22 +42,8 @@ public class HeapEdit {
 
     public void swap(HeapNode t, HeapNode n) {
         if (n.getElement() < t.getElement()) {
-            HeapNode temp;
             if (t == head) {
-                if (t.getLeftChild() == n) {
-                    temp = t.getRightChild();
-                    t.setLeftChild(n.getLeftChild());
-                    n.setLeftChild(t);
-                    t.setRightChild(n.getRightChild());
-                    n.setRightChild(temp);
-                } else {
-                    temp = t.getLeftChild();
-                    t.setRightChild(n.getRightChild());
-                    n.setRightChild(t);
-                    t.setLeftChild(n.getLeftChild());
-                    n.setLeftChild(temp);
-                }
-
+                swapChildren(t, n);
                 head = n;
                 n.setParent(null);
             } else {
@@ -65,37 +51,10 @@ public class HeapEdit {
 
                 if (t.getParent().getRightChild() == t) {
                     t.getParent().setRightChild(n);
-
-                    if (t.getLeftChild() == n) {
-                        temp = t.getRightChild();
-                        t.setLeftChild(n.getLeftChild());
-                        n.setLeftChild(t);
-                        t.setRightChild(n.getRightChild());
-                        n.setRightChild(temp);
-                    } else {
-                        temp = t.getLeftChild();
-                        t.setRightChild(n.getRightChild());
-                        n.setRightChild(t);
-                        t.setLeftChild(n.getLeftChild());
-                        n.setLeftChild(temp);
-                    }
-
+                    swapChildren(t, n);
                 } else {
                     t.getParent().setLeftChild(n);
-
-                    if (t.getLeftChild() == n) {
-                        temp = t.getRightChild();
-                        t.setLeftChild(n.getLeftChild());
-                        n.setLeftChild(t);
-                        t.setRightChild(n.getRightChild());
-                        n.setRightChild(temp);
-                    } else {
-                        temp = t.getLeftChild();
-                        t.setRightChild(n.getRightChild());
-                        n.setRightChild(t);
-                        t.setLeftChild(n.getLeftChild());
-                        n.setLeftChild(temp);
-                    }
+                    swapChildren(t, n);
                 }
             }
 
@@ -109,6 +68,23 @@ public class HeapEdit {
 
         } else {
             System.out.println("No swap needed");
+        }
+    }
+
+    public void swapChildren(HeapNode t, HeapNode n) {
+        HeapNode temp;
+        if (t.getLeftChild() == n) {
+            temp = t.getRightChild();
+            t.setLeftChild(n.getLeftChild());
+            n.setLeftChild(t);
+            t.setRightChild(n.getRightChild());
+            n.setRightChild(temp);
+        } else {
+            temp = t.getLeftChild();
+            t.setRightChild(n.getRightChild());
+            n.setRightChild(t);
+            t.setLeftChild(n.getLeftChild());
+            n.setLeftChild(temp);
         }
     }
 
