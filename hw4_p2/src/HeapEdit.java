@@ -35,29 +35,20 @@ public class HeapEdit {
     }
 
     public void del() {
-        HeapNode max = findMax(head);
-        System.out.println(max.getElement());
-
         if (last.getParent().getLeftChild() == last)
             last.getParent().setLeftChild(null);
         else
             last.getParent().setRightChild(null);
 
-        if (max != head)
-            if (max.getParent().getLeftChild() == max)
-                max.getParent().setLeftChild(last);
-            else
-                max.getParent().setRightChild(last);
+        last.setLeftChild(head.getLeftChild());
+        last.setRightChild(head.getRightChild());
+        head = last;
+        last = findLast(head);
+
+        if(head.getLeftChild().getElement() > head.getRightChild().getElement())
+            swapDown(head, head.getLeftChild());
         else
-            head = last
-
-
-            last.setLeftChild(max.getLeftChild());
-        last.setRightChild(max.getRightChild());
-
-
-        if (last.getElement() > last.getParent().getElement())
-            swap(last, last.getParent());
+            swapDown(head, head.getRightChild());
 
         size--;
     }
@@ -91,6 +82,55 @@ public class HeapEdit {
             if (n == last)
                 last = t;
 
+        }
+    }
+
+    public void swapDown(HeapNode n, HeapNode t){
+        if(n == head){
+            head = t;
+            if(n.getLeftChild() == t){
+                HeapNode temp = t.getRightChild();
+                n.setLeftChild(t.getLeftChild());
+                t.setLeftChild(n);
+                t.setRightChild(n.getRightChild());
+                n.setRightChild(temp);
+            }else{
+                HeapNode temp = t.getLeftChild();
+                n.setRightChild(t.getRightChild());
+                t.setRightChild(n);
+                t.setLeftChild(n.getLeftChild());
+                n.setLeftChild(temp);
+            }
+            t.setParent(null);
+        }else if(t == last){
+            swapChildrenDown(n, t);
+            last = n;
+        }else{
+            t.setParent(n.getParent());
+            swapChildrenDown(n, t);
+        }
+
+        int td = t.getDepth();
+        t.setDepth(n.getDepth());
+        n.setDepth(td);
+
+        if(n != last) {
+            if (n.getLeftChild().getElement() > n.getRightChild().getElement())
+                swapDown(n, n.getLeftChild());
+            else
+                swapDown(n, n.getRightChild());
+        }
+
+
+    }
+
+    public void swapChildrenDown(HeapNode n, HeapNode t){
+        if(n.getParent().getLeftChild() == n){
+            n.getParent().setLeftChild(t);
+            swapChildren(n, t);
+        }else{
+            n.getParent().setRightChild(t);
+            swapChildren(n, t);
         }
     }
 
@@ -130,65 +170,50 @@ public class HeapEdit {
             return l;
     }
 
-    HeapNode findMax(HeapNode n) {
-        HeapNode r = null;
-        HeapNode l = null;
+    HeapNode findLast(HeapNode n){
+        HeapNode l= null
+                , r = null;
 
-        if (!n.hasLeft() && !n.hasRight())
+        if (!n.hasLeft() && !n.hasRight() || n.hasLeft() && !n.hasRight())
             return n;
 
         if (n.hasLeft())
-            l = findMax(n.getLeftChild());
+            l = findLast(n.getLeftChild());
 
         if (n.hasRight())
-            r = findMax(n.getRightChild());
+            r = findLast(n.getRightChild());
 
+        if((l != null && r == null) || l.getDepth() > r.getDepth())
+            return l;
+        else return r;
+    }
 
-        if (r == null) {
-            if (l.getElement() > n.getElement())
-                return l;
-            else
-                return n;
-        } else {
-            if (l.getElement() > r.getElement()) {
-                if (l.getElement() > n.getElement())
-                    return l;
-                else
-                    return n;
-            } else {
-                if (r.getElement() > n.getElement())
-                    return r;
-                else
-                    return n;
-            }
+    public void printHeap(HeapNode node, String arg) {
+
+        if (arg.matches("pre")) {
+            System.out.print(node.getElement() + " ");
+            if (node.hasLeft())
+                printHeap(node.getLeftChild(), arg);
+            if (node.hasRight())
+                printHeap(node.getRightChild(), arg);
+        } else if (arg.matches("in")) {
+            if (node.hasLeft())
+                printHeap(node.getLeftChild(), arg);
+            System.out.print(node.getElement() + " ");
+            if (node.hasRight())
+                printHeap(node.getRightChild(), arg);
+        } else if (arg.matches("post")) {
+            if (node.hasLeft())
+                printHeap(node.getLeftChild(), arg);
+            if (node.hasRight())
+                printHeap(node.getRightChild(), arg);
+            System.out.print(node.getElement() + " ");
         }
     }
 
-    public void printHeap(HeapNode node) {
-        System.out.print(node.getElement() + " ");
-
-        if (node.hasLeft())
-            printHeap(node.getLeftChild());
-        if (node.hasRight())
-            printHeap(node.getRightChild());
-    }
-
-    public void printHeap() {
-        printHeap(head);
+    public void printHeap(String arg) {
+        System.out.print(arg + ": ");
+        printHeap(head, arg);
         System.out.println();
-    }
-
-    public int getMaxDepth() {
-        HeapNode node = head;
-        do {
-            node = node.getLeftChild();
-        }
-        while (node.getLeftChild() != null);
-
-        return node.getDepth();
-    }
-
-    public void getLast() {
-        System.out.println(last.getElement());
     }
 }
