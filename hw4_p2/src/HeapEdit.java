@@ -7,11 +7,14 @@ public class HeapEdit {
         maxSize = cap;
     }
 
+    //Insert into heap
     public void in(int e) {
+        //Check if heap full
         if (size == maxSize) {
             System.out.println("Heap Full");
             return;
         }
+        //Check if adding into head, otherwise add based on deepest node
         HeapNode node = new HeapNode(e);
         if (size == 0) {
             head = node;
@@ -34,18 +37,22 @@ public class HeapEdit {
         size++;
     }
 
+    //Delete max value
     public void del() {
+        //Check if last is left or right child
         if (last.getParent().getLeftChild() == last)
             last.getParent().setLeftChild(null);
         else
             last.getParent().setRightChild(null);
 
+        //Replace head with last
         last.setLeftChild(head.getLeftChild());
         last.setRightChild(head.getRightChild());
         head = last;
         last = findLast(head);
 
-        if(head.getLeftChild().getElement() > head.getRightChild().getElement())
+        //Swap new head down towards end
+        if(head.getLeftChild() != null && head.getLeftChild().getElement() > head.getRightChild().getElement())
             swapDown(head, head.getLeftChild());
         else
             swapDown(head, head.getRightChild());
@@ -53,6 +60,7 @@ public class HeapEdit {
         size--;
     }
 
+    //Swap upwards when inserting new node
     public void swap(HeapNode t, HeapNode n) {
         if (n.getElement() > t.getElement()) {
             if (t == head) {
@@ -85,6 +93,7 @@ public class HeapEdit {
         }
     }
 
+    //Swap down when deleting node
     public void swapDown(HeapNode n, HeapNode t){
         if(n == head){
             head = t;
@@ -124,6 +133,7 @@ public class HeapEdit {
 
     }
 
+    //Swap children when swapping down
     public void swapChildrenDown(HeapNode n, HeapNode t){
         if(n.getParent().getLeftChild() == n){
             n.getParent().setLeftChild(t);
@@ -134,6 +144,7 @@ public class HeapEdit {
         }
     }
 
+    //Swap children when swapping up
     public void swapChildren(HeapNode t, HeapNode n) {
         HeapNode temp;
         if (t.getLeftChild() == n) {
@@ -151,6 +162,7 @@ public class HeapEdit {
         }
     }
 
+    //Find deepest node to link onto (name is a bit confusing, this just finds the place to link onto)
     HeapNode findDeepest(HeapNode n) {
         HeapNode r = null;
         HeapNode l = null;
@@ -170,9 +182,10 @@ public class HeapEdit {
             return l;
     }
 
+    //Find the last node on the entire heap
     HeapNode findLast(HeapNode n){
-        HeapNode l= null
-                , r = null;
+        HeapNode l= null,
+                r = null;
 
         if (!n.hasLeft() && !n.hasRight() || n.hasLeft() && !n.hasRight())
             return n;
@@ -183,11 +196,17 @@ public class HeapEdit {
         if (n.hasRight())
             r = findLast(n.getRightChild());
 
-        if((l != null && r == null) || l.getDepth() > r.getDepth())
+        if(l == null && r != null)
+            return r;
+        else if(l != null && r == null)
             return l;
-        else return r;
+        else if (l.getElement() > r.getElement())
+            return r;
+        else return l;
     }
 
+
+    //Overloaded print heap to call recursively since I don't store the heap in the main class
     public void printHeap(HeapNode node, String arg) {
 
         if (arg.matches("pre")) {
@@ -211,6 +230,7 @@ public class HeapEdit {
         }
     }
 
+    //Print heap based on input
     public void printHeap(String arg) {
         System.out.print(arg + ": ");
         printHeap(head, arg);
