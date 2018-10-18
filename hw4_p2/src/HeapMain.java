@@ -7,10 +7,10 @@ import java.io.*;
 import java.util.Scanner;
 
 public class HeapMain {
-    public static void main(String[] args) throws IOException {
-        HeapEdit heap;
+	public static void main(String[] args) throws IOException {
+		HeapEdit heap;
 
-        //Testing please ignore
+		//Testing please ignore
 //        heap.in(35);
 //        heap.in(33);
 //        heap.in(42);
@@ -27,43 +27,43 @@ public class HeapMain {
 //        heap.printHeap("post");
 //        heap.printHeap("in");
 
-        Scanner scan = new Scanner(System.in);
-        String line;
+		Scanner scan = new Scanner(System.in);
+		String line;
 
-        //Set to rea from a file
-        System.out.println("Enter your input file name: ");
-        String filename = scan.nextLine();
-        File file = new File(filename);
+		//Set to rea from a file
+		System.out.println("Enter your input file name: ");
+		String filename = scan.nextLine();
+		File file = new File(filename);
 
-        //Set up file readers
-        FileReader fr = new FileReader(filename);
-        BufferedReader br = new BufferedReader(fr);
+		//Set up file readers
+		FileReader fr = new FileReader(filename);
+		BufferedReader br = new BufferedReader(fr);
 
-        while((line = br.readLine()) != null){
-            System.out.println("File input: ");
-            System.out.println(line);
+		while ((line = br.readLine()) != null) {
+			System.out.println("File input: ");
+			System.out.println(line);
 
-            String arr[] = line.split(" ");
-            heap = new HeapEdit(Integer.parseInt(arr[1]));
+			String arr[] = line.split(" ");
+			heap = new HeapEdit(Integer.parseInt(arr[1]));
 
-            for(String val: arr){
-                if(val.matches("^-?\\d+\\.in$")){
-                    String op[] = val.split("\\.");
+			for (String val : arr) {
+				if (val.matches("^-?\\d+\\.in$")) {
+					String op[] = val.split("\\.");
 
-                    if(op[1].matches("in"))
-                        heap.in(Integer.parseInt(op[0]));
-                }else if(val.matches("del"))
-                    heap.del();
+					if (op[1].matches("in"))
+						heap.in(Integer.parseInt(op[0]));
+				} else if (val.matches("del"))
+					heap.del();
 
-            }
+			}
 
-            System.out.println("File output: ");
-            if(arr[0].matches("^pre|post|in$"))
-                heap.printHeap(arr[0]);
+			System.out.println("File output: ");
+			if (arr[0].matches("^pre|post|in$"))
+				heap.printHeap(arr[0]);
 
-            System.out.println("-------------------------------------------------------");
+			System.out.println("-------------------------------------------------------");
 
-        }
+		}
 
-    }
+	}
 }

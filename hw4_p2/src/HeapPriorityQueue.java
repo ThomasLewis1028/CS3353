@@ -106,7 +106,7 @@
 //        if ((heap.isEmpty())) return null;
 //        Map.Entry<K, V> answer = heap.get(0);
 //        swap(0, heap.size() - 1);
-//        heap.remove(heap.size() - 1);
+//        heap.delete(heap.size() - 1);
 //        downheap(0);
 //        return answer;
 //    }
