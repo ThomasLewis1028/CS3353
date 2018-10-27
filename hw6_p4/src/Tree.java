@@ -38,14 +38,49 @@ public class Tree {
 			if (head != node)
 				if (node.getParent().getColor() == Node.COLOR.red)
 					recolor(node);
-
-
-			//TODO: Check validity of tree
 		}
 	}
 
-	void remove() {
+	void remove(int k) {
+		Node temp = head;
 
+		while (temp != null){
+			if(temp.getValue() == k){
+
+				if(temp.getRightCh() == null && temp.getLeftCh() == null){
+					if(temp.getChildType() == Node.CHILD_TYPE.left)
+						temp.getParent().setLeftCh(null);
+					else if(temp.getChildType() == Node.CHILD_TYPE.right)
+						temp.getParent().setRightCh(null);
+
+					break;
+				}else if (temp.getLeftCh() == null){
+					if(temp.getColor() == Node.COLOR.red || temp.getRightCh().getColor() == Node.COLOR.red)
+						temp.getRightCh().setColor(Node.COLOR.black);
+
+					if(temp.getChildType() == Node.CHILD_TYPE.left)
+						temp.getParent().setLeftCh(temp.getRightCh());
+					else if(temp.getChildType() == Node.CHILD_TYPE.right)
+						temp.getParent().setRightCh(temp.getRightCh());
+
+					break;
+				}else{
+					if(temp.getColor() == Node.COLOR.red || temp.getLeftCh().getColor() == Node.COLOR.red)
+						temp.getLeftCh().setColor(Node.COLOR.black);
+
+					if(temp.getChildType() == Node.CHILD_TYPE.left)
+						temp.getParent().setLeftCh(temp.getLeftCh());
+					else if(temp.getChildType() == Node.CHILD_TYPE.right)
+						temp.getParent().setRightCh(temp.getLeftCh());
+
+					break;
+				}
+			}else if(k > temp.getValue()){
+				temp = temp.getRightCh();
+			}else
+				temp = temp.getLeftCh();
+
+		}
 	}
 
 	boolean search(int k){
@@ -80,7 +115,7 @@ public class Tree {
 					g.setColor(Node.COLOR.red);
 
 			} else //Restructure if black
-				restructure(n, p, g, g.getRightCh());
+				restructure(n, p, g);
 		} else if (p.getChildType() == Node.CHILD_TYPE.right) {
 			if (g.getLeftCh() != null && g.getLeftCh().getColor() == Node.COLOR.red) {
 				p.setColor(Node.COLOR.black);
@@ -90,15 +125,27 @@ public class Tree {
 				else
 					g.setColor(Node.COLOR.red);
 			} else
-				restructure(n, p, g, g.getLeftCh());
+				restructure(n, p, g);
 		}
+
+		if(g.getColor() == Node.COLOR.red && g.getParent().getColor() == Node.COLOR.red)
+			restructure(g, g.getParent(), g.getParent().getParent());
 	}
 
-	private void restructure(Node n, Node p, Node g, Node u) {
+	private void restructure(Node n, Node p, Node g) {
 		if (n.getChildType() == Node.CHILD_TYPE.left) {
 			if (p.getChildType() == Node.CHILD_TYPE.left) {			//Left left
 				g.setLeftCh(p.getRightCh());
-				g.getParent().setLeftCh(p);
+
+				if(g.getChildType() == Node.CHILD_TYPE.left)
+					g.getParent().setLeftCh(p);
+				else if(g.getChildType() == Node.CHILD_TYPE.right)
+					g.getParent().setRightCh(p);
+				else {
+					p.setChildType(Node.CHILD_TYPE.root);
+					p.setParent(null);
+				}
+
 				p.setRightCh(g);
 
 				g.setColor(Node.COLOR.red);
@@ -109,12 +156,16 @@ public class Tree {
 				g.setRightCh(n);
 
 				g.setRightCh(n.getLeftCh());
+
 				if(g.getChildType() == Node.CHILD_TYPE.left)
 					g.getParent().setLeftCh(n);
 				else if(g.getChildType() == Node.CHILD_TYPE.right)
 					g.getParent().setRightCh(n);
-				else
+				else {
 					n.setChildType(Node.CHILD_TYPE.root);
+					n.setParent(null);
+				}
+
 				n.setLeftCh(p);
 
 				g.setColor(Node.COLOR.red);
@@ -127,12 +178,15 @@ public class Tree {
 				g.setLeftCh(n);
 
 				g.setLeftCh(n.getRightCh());
+
 				if(g.getChildType() == Node.CHILD_TYPE.left)
 					g.getParent().setLeftCh(n);
 				else if(g.getChildType() == Node.CHILD_TYPE.right)
 					g.getParent().setRightCh(n);
-				else
+				else {
 					n.setChildType(Node.CHILD_TYPE.root);
+					n.setParent(null);
+				}
 
 				n.setRightCh(g);
 
@@ -140,62 +194,30 @@ public class Tree {
 				n.setColor(Node.COLOR.black);
 			} else if (p.getChildType() == Node.CHILD_TYPE.right) {	//Right Right
 				g.setRightCh(p.getLeftCh());
-				g.getParent().setRightCh(p);
+
+				if(g.getChildType() == Node.CHILD_TYPE.left)
+					g.getParent().setLeftCh(p);
+				else if(g.getChildType() == Node.CHILD_TYPE.right)
+					g.getParent().setRightCh(p);
+				else {
+					p.setChildType(Node.CHILD_TYPE.root);
+					p.setParent(null);
+				}
+
 				p.setLeftCh(g);
 
 				g.setColor(Node.COLOR.red);
 				p.setColor(Node.COLOR.black);
 			}
 
-			if(head == g){
-				head = n;
-				n.setChildType(Node.CHILD_TYPE.root);
-			}
+
 		}
-	}
 
-	private void swap(Node t, Node n) {
-		if (n.getValue() > t.getValue()) {
-			if (t == head) {
-				swapChildren(t, n);
+		if(head == g){
+			if(g.getParent() == n)
 				head = n;
-				n.setParent(null);
-			} else {
-				n.setParent(t.getParent());
-
-				if (t.getParent().getRightCh() == t) {
-					t.getParent().setRightCh(n);
-					swapChildren(t, n);
-				} else {
-					t.getParent().setLeftCh(n);
-					swapChildren(t, n);
-				}
-			}
-
-			int td = t.getDepth();
-			t.setDepth(n.getDepth());
-			n.setDepth(td);
-
-			if (n.getParent() != null && n.getValue() > n.getParent().getValue()) {
-				swap(n.getParent(), n);
-			}
-		}
-	}
-
-	private void swapChildren(Node t, Node n) {
-		Node temp;
-		if (t.getLeftCh() == n) {
-			temp = t.getRightCh();
-			t.setLeftCh(n.getLeftCh());
-			n.setLeftCh(t);
-			t.setRightCh(n.getRightCh());
-			n.setRightCh(temp);
-		} else {
-			temp = t.getLeftCh();
-			t.setRightCh(n.getRightCh());
-			n.setRightCh(t);
-			t.setLeftCh(n.getLeftCh());
-			n.setLeftCh(temp);
+			else if(g.getParent() == p)
+				head = p;
 		}
 	}
 
@@ -206,11 +228,20 @@ public class Tree {
 	}
 
 	private void printTree(Node n) {
-		if(n.getLeftCh() != null)
-			printTree(n.getLeftCh());
+//		if(n.getLeftCh() != null)
+//			printTree(n.getLeftCh());
+//		if(n.getChildType() == Node.CHILD_TYPE.root)
+//			System.out.print("ROOT:");
+//		System.out.print(n.getValue() + "(" + n.getColor().toString() + ") ");
+//		if(n.getRightCh() != null)
+//			printTree(n.getRightCh());
+
+
 		if(n.getChildType() == Node.CHILD_TYPE.root)
 			System.out.print("ROOT:");
 		System.out.print(n.getValue() + "(" + n.getColor().toString() + ") ");
+		if(n.getLeftCh() != null)
+			printTree(n.getLeftCh());
 		if(n.getRightCh() != null)
 			printTree(n.getRightCh());
 	}
