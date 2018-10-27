@@ -45,8 +45,10 @@ public class Node {
 
 	void setLeftCh(Node leftCh) {
 		this.leftCh = leftCh;
-		this.leftCh.setParent(this);
-		this.leftCh.setChildType(CHILD_TYPE.left);
+		if(this.leftCh != null) {
+			this.leftCh.setParent(this);
+			this.leftCh.setChildType(CHILD_TYPE.left);
+		}
 	}
 
 	Node getRightCh() {
@@ -55,8 +57,10 @@ public class Node {
 
 	void setRightCh(Node rightCh) {
 		this.rightCh = rightCh;
-		this.rightCh.setParent(this);
-		this.rightCh.setChildType(CHILD_TYPE.right);
+		if(this.rightCh != null) {
+			this.rightCh.setParent(this);
+			this.rightCh.setChildType(CHILD_TYPE.right);
+		}
 	}
 
 	int getValue() {

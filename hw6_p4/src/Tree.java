@@ -36,7 +36,7 @@ public class Tree {
 				}
 			}
 
-			if(head != node)
+			if (head != node)
 				if (node.getParent().getColor() == Node.COLOR.red)
 					recolor(node);
 
@@ -56,7 +56,7 @@ public class Tree {
 		//Follow instructions for a red uncle
 		if (p.getChildType() == Node.CHILD_TYPE.left) {
 			//Check if uncle is red or black
-			if (g.getRightCh().getColor() == Node.COLOR.red) {
+			if (g.getRightCh() != null && g.getRightCh().getColor() == Node.COLOR.red) {
 				p.setColor(Node.COLOR.black);
 				g.getRightCh().setColor(Node.COLOR.black);
 
@@ -66,39 +66,61 @@ public class Tree {
 				else
 					g.setColor(Node.COLOR.red);
 
-			} //else //Restructure if black
-//				restructure(n, p, g, g.getRightCh());
+			} else //Restructure if black
+				restructure(n, p, g, g.getRightCh());
 		} else if (p.getChildType() == Node.CHILD_TYPE.right) {
-			if (g.getLeftCh().getColor() == Node.COLOR.red) {
+			if (g.getLeftCh() != null && g.getLeftCh().getColor() == Node.COLOR.red) {
 				p.setColor(Node.COLOR.black);
 				g.getLeftCh().setColor(Node.COLOR.black);
 				if (g.getChildType() == Node.CHILD_TYPE.root)
 					blackHeight++;
 				else
 					g.setColor(Node.COLOR.red);
-			} //else
-//				restructure(n, p, g, g.getLeftCh());
+			} else
+				restructure(n, p, g, g.getLeftCh());
 		}
 	}
 
 	void restructure(Node n, Node p, Node g, Node u) {
-
-
 		if (n.getChildType() == Node.CHILD_TYPE.left) {
-			if (n.getParent().getChildType() == Node.CHILD_TYPE.left) {
+			if (p.getChildType() == Node.CHILD_TYPE.left) {
+				g.setLeftCh(p.getRightCh());
+				p.setParent(g.getParent());
+				p.setRightCh(g);
 
-			} else if (n.getParent().getChildType() == Node.CHILD_TYPE.right) {
+				g.setColor(Node.COLOR.red);
+				p.setColor(Node.COLOR.black);
+			} else if (p.getChildType() == Node.CHILD_TYPE.right) {
+				p.setRightCh(n.getLeftCh());
+				n.setLeftCh(p);
 
+				g.setLeftCh(n.getRightCh());
+				n.setParent(g.getParent());
+				n.setRightCh(g);
+
+				n.setColor(Node.COLOR.black);
+				g.setColor(Node.COLOR.red);
 			}
 		} else if (n.getChildType() == Node.CHILD_TYPE.right) {
-			if (n.getParent().getChildType() == Node.CHILD_TYPE.left) {
+			if (p.getChildType() == Node.CHILD_TYPE.left) {
+				g.setRightCh(p.getLeftCh());
+				p.setParent(g.getParent());
+				p.setLeftCh(g);
 
-			} else if (n.getParent().getChildType() == Node.CHILD_TYPE.right) {
+				g.setColor(Node.COLOR.red);
+				p.setColor(Node.COLOR.black);
+			} else if (p.getChildType() == Node.CHILD_TYPE.right) {
+				p.setLeftCh(n.getRightCh());
+				n.setRightCh(p);
 
+				g.setRightCh(n.getLeftCh());
+				n.setParent(g.getParent());
+				n.setLeftCh(g);
+
+				n.setColor(Node.COLOR.black);
+				g.setColor(Node.COLOR.red);
 			}
 		}
-
-
 	}
 
 	void swap(Node t, Node n) {
