@@ -1,61 +1,77 @@
 public class Node {
-	enum COLOR{red, black}
+	enum COLOR {red, black}
+
+	enum CHILD_TYPE {left, right, root}
+
 	private COLOR color;
+	private CHILD_TYPE childType;
 	private Node parent;
 	private Node leftCh;
 	private Node rightCh;
 	private int value;
 	private int depth;
 
-	Node (int k){
+	Node(int k) {
 		this.value = k;
 	}
 
-	public COLOR getColor() {
+	COLOR getColor() {
 		return color;
 	}
 
-	public void setColor(COLOR color) {
+	void setColor(COLOR color) {
 		this.color = color;
 	}
 
-	public Node getParent() {
+	CHILD_TYPE getChildType() {
+		return childType;
+	}
+
+	void setChildType(CHILD_TYPE childType) {
+		this.childType = childType;
+	}
+
+	Node getParent() {
 		return parent;
 	}
 
-	public void setParent(Node parent) {
+	void setParent(Node parent) {
 		this.parent = parent;
 	}
 
-	public Node getLeftCh() {
+	Node getLeftCh() {
 		return leftCh;
 	}
 
-	public void setLeftCh(Node leftCh) {
+	void setLeftCh(Node leftCh) {
 		this.leftCh = leftCh;
+		this.leftCh.setParent(this);
+		this.leftCh.setChildType(CHILD_TYPE.left);
 	}
 
-	public Node getRightCh() {
+	Node getRightCh() {
 		return rightCh;
 	}
 
-	public void setRightCh(Node rightCh) {
+	void setRightCh(Node rightCh) {
 		this.rightCh = rightCh;
+		this.rightCh.setParent(this);
+		this.rightCh.setChildType(CHILD_TYPE.right);
 	}
 
-	public int getValue() {
+	int getValue() {
 		return value;
 	}
 
-	public void setValue(int value) {
+	void setValue(int value) {
 		this.value = value;
 	}
 
-	public int getDepth() {
+	int getDepth() {
 		return depth;
 	}
 
-	public void setDepth(int depth) {
+	void setDepth(int depth) {
 		this.depth = depth;
 	}
 }
