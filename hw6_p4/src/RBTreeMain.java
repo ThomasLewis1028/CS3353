@@ -1,30 +1,44 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Scanner;
+
 public class RBTreeMain {
-	public static void main(String[] args) {
-		Tree tree = new Tree();
+	public static void main(String[] args) throws IOException {
+		Tree tree;
 
-		tree.insert(14);
-		tree.insert(5);
-		tree.insert(22);
-		tree.insert(3);
-		tree.insert(8);
-		tree.insert(1);
-		tree.insert(9);
-		tree.insert(2);
-		tree.insert(19);
-		tree.insert(20);
-		tree.insert(4);
-//		tree.insert(10);
-//		tree.insert(23);
-//		tree.insert(18);
-//		tree.insert(24);
+		Scanner scanner = new Scanner(System.in);
+		String line;
 
-		tree.printTree();
+		System.out.println("Enter your input file name: ");
+		String filename = scanner.nextLine();
+		File file = new File(filename);
 
-		tree.remove(2);
+		FileReader fr = new FileReader(filename);
+		BufferedReader br = new BufferedReader(fr);
 
-		tree.printTree();
+		while ((line = br.readLine()) != null) {
+			System.out.println("File input: ");
+			System.out.println(line);
 
-		System.out.println(tree.search(9) ? 9 + " found " : 9 + " not found");
-		System.out.println(tree.search(7) ? 7 + " found " : 7 + " not found");
+			String arr[] = line.split(" ");
+			tree = new Tree();
+
+			for (String val : arr) {
+				if (val.matches("^-?\\d+\\.(in|sch|del)$")) {
+					String op[] = val.split("\\.");
+
+					if (op[1].matches("in"))
+						tree.insert(Integer.parseInt(op[0]));
+					else if (op[1].matches("sch"))
+						tree.search(Integer.parseInt(op[0]));
+					else if (op[1].matches("del"))
+						tree.remove(Integer.parseInt(op[0]));
+				}
+			}
+
+			tree.printTree();
+		}
 	}
 }

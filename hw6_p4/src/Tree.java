@@ -83,18 +83,19 @@ public class Tree {
 		}
 	}
 
-	boolean search(int k){
+	void search(int k){
 		Node temp = head;
 		while(temp != null){
-			if(temp.getValue() == k)
-				return true;
-			else if(temp.getValue() > k)
+			if(temp.getValue() == k) {
+				System.out.println(k + " exists in tree");
+				return;
+			}else if(temp.getValue() > k)
 				temp = temp.getLeftCh();
 			else
 				temp = temp.getRightCh();
 		}
 
-		return false;
+		System.out.println(k + " does not exist in tree");
 	}
 
 	private void recolor(Node n) {
@@ -228,20 +229,11 @@ public class Tree {
 	}
 
 	private void printTree(Node n) {
-//		if(n.getLeftCh() != null)
-//			printTree(n.getLeftCh());
-//		if(n.getChildType() == Node.CHILD_TYPE.root)
-//			System.out.print("ROOT:");
-//		System.out.print(n.getValue() + "(" + n.getColor().toString() + ") ");
-//		if(n.getRightCh() != null)
-//			printTree(n.getRightCh());
-
-
+		if(n.getLeftCh() != null)
+			printTree(n.getLeftCh());
 		if(n.getChildType() == Node.CHILD_TYPE.root)
 			System.out.print("ROOT:");
 		System.out.print(n.getValue() + "(" + n.getColor().toString() + ") ");
-		if(n.getLeftCh() != null)
-			printTree(n.getLeftCh());
 		if(n.getRightCh() != null)
 			printTree(n.getRightCh());
 	}
