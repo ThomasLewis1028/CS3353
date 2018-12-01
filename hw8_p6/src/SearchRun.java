@@ -9,10 +9,9 @@ public class SearchRun {
 		int matrix[][] = new int[8][8];
 		String dataLine;
 
-		System.out.println("Enter your input file name: ");
+		System.out.println("Enter file name: ");
 		Scanner scan = new Scanner(System.in);
 		String fileName = scan.nextLine();
-//		fileName += ".txt";
 		File file = new File(fileName);
 
 		Scanner sc = new Scanner(file);
@@ -27,8 +26,6 @@ public class SearchRun {
 			}
 			n++;
 		}
-
-		//dfs.print(dataLine);
 
 		matrixSize = matrixData.length;
 
@@ -46,7 +43,6 @@ public class SearchRun {
 		for (int i = 0; i < matrixSize; i++) {
 			for (int j = 0; j < matrixSize; j++) {
 				if (matrix[i][j] == 1) {
-					//System.out.println("CONNECTED at " + i + " " + j);
 					bfs.addEdge(i, j);
 					dfs.addEdge(i, j);
 				}
@@ -56,10 +52,6 @@ public class SearchRun {
 		System.out.println("\nBreadth First Search: ");
 		bfs.BFS(0);
 		System.out.println("\nDepth First Search: ");
-		dfs.DFS(2);
-
-
-		//dfs.print();
-
+		dfs.depthFirstSearch(2);
 	}
 }

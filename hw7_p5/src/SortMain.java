@@ -7,27 +7,23 @@ public class SortMain {
 
 		String inputData[];
 		String bucketData[];
-		int tableSize;
+		String input;
 
-		String dataLine;
-
-		System.out.println("Enter your input file name: ");
+		System.out.println("Enter the file name: ");
 		Scanner scan = new Scanner(System.in);
-		String fileName = scan.nextLine();
-//		fileName += ".txt";
-		File file = new File(fileName);
-
+		File file = new File(scan.nextLine());
 		Scanner sc = new Scanner(file);
-		dataLine = sc.nextLine();
-		inputData = dataLine.split(" ");
-		bucketData = dataLine.split(" ");
 
-		tableSize = inputData.length;
+		input = sc.nextLine();
+		inputData = input.split(" ");
+		bucketData = input.split(" ");
+
+		int tableSize = inputData.length;
 
 		Table operation = new Table(tableSize);
-		MergeSort merge = new MergeSort();
+		SortMerge merge = new SortMerge();
 
-		System.out.println("Display before the operation: \n" + dataLine + "\n");
+		System.out.println("Pre-operation output: \n" + input + "\n");
 
 		for(int i = 0; i < bucketData.length;i++) {
 			operation.insert(Double.parseDouble(bucketData[i]));
@@ -35,12 +31,12 @@ public class SortMain {
 
 		merge.sort(inputData,0, inputData.length-1);
 
-		System.out.println("Operation After Merge Sort");
-		merge.printArray(inputData);
-		System.out.println(("Operation After Bucket Sort"));
+		System.out.println("Post-MergeSort");
+		merge.printArr(inputData);
+		System.out.println(("Post BucketSort"));
 		operation.printTable();
 
-		System.out.println("Enter the Range you are wanting");
+		System.out.println("Enter the Range");
 		Scanner range = new Scanner(System.in);
 		double num = range.nextDouble();
 
