@@ -29,22 +29,13 @@ public class DijkstraAlgo {
 		return min_index;
 	}
 
-	private int[][] shortestDistance(int graph[][]) {
-		return graph;
-	}
-
 	void dijkstra(int graph[][], int src) {
-		// The output array. dist[i] will hold
-		// the shortest distance from src to i
 		int dist[] = new int[size];
 
 		Map<Integer, int[]> edgePath = new HashMap<>();
 
-		// sptSet[i] will true if vertex i is included in shortest
-		// path tree or shortest distance from src to i is finalized
 		Boolean sptSet[] = new Boolean[size];
 
-		// Initialize all distances as INFINITE and stpSet[] as false
 		for (int i = 0; i < size; i++) {
 			dist[i] = Integer.MAX_VALUE;
 			sptSet[i] = false;
@@ -78,18 +69,18 @@ public class DijkstraAlgo {
 			}
 		}
 
-		for(int i = 1; i < size; i++) {
+		for(int i = 1; i < size; i++)
 			newGraph[edgePath.get(i)[0]][i] = edgePath.get(i)[1];
-		}
+
 
 		print(newGraph, size);
 	}
 
 	public void print(int[][] graph, int size){
 		for(int col = 0; col < size; col++){
-			for(int row = 0; row < size; row++){
+			for(int row = 0; row < size; row++)
 				System.out.print(graph[col][row] + " ");
-			}
+
 			System.out.println();
 		}
 	}

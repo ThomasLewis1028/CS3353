@@ -1,4 +1,6 @@
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
@@ -6,16 +8,20 @@ public class DijkstraMain {
 	public static void main(String args[]) throws IOException {
 		DijkstraAlgo d = new DijkstraAlgo();
 
-		String matrixData[] = null;
-		int matrix[][] = new int[8][8];
+		String matrixData[];
 		int matrixSize;
 		String dataLine;
 
 		System.out.println("Enter your input file name: ");
 		Scanner scan = new Scanner(System.in);
 		String fileName = scan.nextLine();
-//		fileName += ".txt";
 		File file = new File(fileName);
+
+		BufferedReader br = new BufferedReader(new FileReader(file));
+		matrixData = br.readLine().split(" ");
+
+		matrixSize = matrixData.length;
+		int matrix[][] = new int[matrixSize][matrixSize];
 
 		Scanner sc = new Scanner(file);
 		int n = 0;
@@ -35,7 +41,6 @@ public class DijkstraMain {
 			n++;
 		}
 
-		matrixSize = matrixData.length;
 
 		int graph[][] = new int[matrixSize][matrixSize];
 
