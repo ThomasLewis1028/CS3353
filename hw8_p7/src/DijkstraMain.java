@@ -4,6 +4,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
 
+//This file is basically identical to all of my other input mains except the one I broke out into a ProgRun class
 public class DijkstraMain {
 	public static void main(String args[]) throws IOException {
 		DijkstraAlgo d = new DijkstraAlgo();
@@ -17,17 +18,19 @@ public class DijkstraMain {
 		String fileName = scan.nextLine();
 		File file = new File(fileName);
 
+		//Used the buffered reader to take the input as the matrix's size
 		BufferedReader br = new BufferedReader(new FileReader(file));
 		matrixData = br.readLine().split(" ");
-
 		matrixSize = matrixData.length;
 		int matrix[][] = new int[matrixSize][matrixSize];
 
 		Scanner sc = new Scanner(file);
 		int n = 0;
 
+		System.out.println("Matrix input:");
 		while(sc.hasNextLine()) {
 			dataLine = sc.nextLine();
+			System.out.println(dataLine);
 			matrixData = dataLine.split(" ");
 
 			for(int i = 0; i < matrixData.length;i++) {
@@ -41,6 +44,7 @@ public class DijkstraMain {
 			n++;
 		}
 
+		System.out.println();
 
 		int graph[][] = new int[matrixSize][matrixSize];
 
@@ -50,9 +54,7 @@ public class DijkstraMain {
 			}
 		}
 
-
-
-		d.setsize(matrixSize);
+		d.setSize(matrixSize);
 		d.dijkstra(graph, 0);
 	}
 }
